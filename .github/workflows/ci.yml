@@ -1,7 +1,7 @@
-name: Pipeline CD
+name: Pipeline CI
 
 on:
-  push:
+  pull_request:
     branches: [ main ]
   workflow_dispatch:
 
@@ -19,10 +19,10 @@ jobs:
         with:
           java-version: '21'
           distribution: 'temurin'
-          cache: maven
+          cache: gradle
 
       - name: Build
-        run:  mvn -B clean compile
+        run:  ./gradlew clean build -x test
 
       - name: Unit tests
-        run: mvn -B clean test
+        run: ./gradlew clean test
