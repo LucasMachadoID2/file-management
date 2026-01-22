@@ -19,7 +19,7 @@ FROM eclipse-temurin:21-jre-alpine AS run
 WORKDIR /app
 
 # Create non-root user
-RUN addgroup --system appuser && adduser --system --group appuser
+RUN addgroup -S appuser && adduser -S -G appuser appuser
 
 # Copy the built jar from build stage
 COPY --from=build /app/build/libs/*.jar app.jar
