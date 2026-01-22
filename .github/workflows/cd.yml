@@ -22,10 +22,10 @@ jobs:
           cache: maven
 
       - name: Build
-        run:  mvn -B clean compile
+        run:  ./gradlew clean build -x test
 
       - name: Unit tests
-        run: mvn -B clean test
+        run: ./gradlew clean test
 
       - name: Login Docker Hub
         uses: docker/login-action@v3

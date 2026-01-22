@@ -1,4 +1,4 @@
-name: Pipeline CD
+name: Pipeline CI
 
 on:
   push:
@@ -22,7 +22,7 @@ jobs:
           cache: maven
 
       - name: Build
-        run:  mvn -B clean compile
+        run:  ./gradlew clean build -x test
 
       - name: Unit tests
-        run: mvn -B clean test
+        run: ./gradlew clean test
