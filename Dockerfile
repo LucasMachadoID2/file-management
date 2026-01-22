@@ -1,5 +1,5 @@
 # Build stage
-FROM gradle:8.5.0-jdk21 AS build
+FROM gradle:8-jdk21-alpine AS build
 
 WORKDIR /app
 
@@ -14,7 +14,7 @@ COPY src ./src
 RUN gradle clean build -x test --no-daemon
 
 # Runtime stage
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jre-alpine AS run
 
 WORKDIR /app
 
