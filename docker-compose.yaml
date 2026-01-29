@@ -1,11 +1,45 @@
 services:
-  db:
+  postgres:
     image: postgres:16
-    container_name: postgres-file-management
-    restart: always
+    container_name: file-management-db
     environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
       POSTGRES_DB: file-management
+      POSTGRES_USER: ${APP_USER_DATABASE:-admin}
+      POSTGRES_PASSWORD: ${APP_PASSWORD_DATABASE:-admin123}
     ports:
       - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${APP_USER_DATABASE:-admin} -d file-management"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - file-management-network
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: file-management-app
+    environment:
+      DB_HOST: postgres
+      APP_USER_DATABASE: ${APP_USER_DATABASE:-admin}
+      APP_PASSWORD_DATABASE: ${APP_PASSWORD_DATABASE:-admin123}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE:-default}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - file-management-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  file-management-network:
+    driver: bridge

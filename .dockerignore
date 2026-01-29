@@ -1,0 +1,13 @@
+.git
+.gradle
+build
+.idea
+*.iml
+*.iws
+*.ipr
+.vscode
+.DS_Store
+*.log
+target
+bin
+out
