@@ -14,5 +14,6 @@ public interface FileRepository {
     List<File> findByUserIdAndStatus(String userId, FileStatus status);
     List<File> findByStatus(FileStatus status);
     Optional<File> findById(UUID id);
+    Optional<File> findByEmailAndOriginalFileName(String email, String originalFileName);
     File save(File file);
 }

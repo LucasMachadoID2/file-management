@@ -15,25 +15,14 @@ public class UpdateFileStatusUseCase {
         this.repository = repository;
     }
     
-    public File execute(String email, String originalFileName, String contentType, 
-                       byte[] fileData, FileStatus status, String userId) {
+    public File execute(String email, String fileName, FileStatus status) {
+        File file = repository.findByEmailAndOriginalFileName(email, fileName)
+                .orElseThrow(() -> new IllegalArgumentException(
+                    "File not found with email: " + email + " and fileName: " + fileName));
         
-        File file = new File();
-        file.setUserId(userId != null ? userId : "system");
-        file.setEmail(email);
-        file.setOriginalFileName(originalFileName);
-        file.setContentType(contentType);
-        file.setSize((long) fileData.length);
-        file.setFileData(fileData);
         file.setStatus(status);
-        file.setCreatedAt(LocalDateTime.now());
         file.setUpdatedAt(LocalDateTime.now());
         
-        File savedFile = repository.save(file);
-        
-        String storedFileName = email + "_" + savedFile.getId().toString();
-        savedFile.setOriginalFileName(storedFileName);
-        
-        return repository.save(savedFile);
+        return repository.save(file);
     }
 }

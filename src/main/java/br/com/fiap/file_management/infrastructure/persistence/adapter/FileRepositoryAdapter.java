@@ -66,6 +66,12 @@ public class FileRepositoryAdapter implements FileRepository {
     }
     
     @Override
+    public Optional<File> findByEmailAndOriginalFileName(String email, String originalFileName) {
+        return jpaRepository.findByEmailAndOriginalFileName(email, originalFileName)
+            .map(mapper::toDomain);
+    }
+    
+    @Override
     public File save(File file) {
         FileEntity entity = mapper.toEntity(file);
         FileEntity saved = jpaRepository.save(entity);
