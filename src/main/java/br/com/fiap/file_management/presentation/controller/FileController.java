@@ -31,9 +31,20 @@ public class FileController {
     }
     
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        uploadFileUseCase.execute();
-        return ResponseEntity.ok("File upload initiated. It will be processed asynchronously.");
+    public ResponseEntity<FileResponse> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("email") String email) {
+        
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("File cannot be empty");
+        }
+        
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        
+        File savedFile = uploadFileUseCase.execute(file, email);
+        return ResponseEntity.ok(toResponse(savedFile));
     }
     
     @GetMapping("/list")
