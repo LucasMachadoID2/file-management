@@ -32,7 +32,6 @@ public class FileController {
     
     @PostMapping("/upload")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        // Placeholder: No futuro, este endpoint irá postar o arquivo em uma fila
         uploadFileUseCase.execute();
         return ResponseEntity.ok("File upload initiated. It will be processed asynchronously.");
     }
