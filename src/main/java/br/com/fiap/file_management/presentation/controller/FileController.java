@@ -31,9 +31,20 @@ public class FileController {
     }
     
     @PostMapping("/upload")
-    public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        uploadFileUseCase.execute();
-        return ResponseEntity.ok("File upload initiated. It will be processed asynchronously.");
+    public ResponseEntity<FileResponse> uploadFile(
+            @RequestParam("file") MultipartFile file,
+            @RequestParam("email") String email) {
+        
+        if (file.isEmpty()) {
+            throw new IllegalArgumentException("File cannot be empty");
+        }
+        
+        if (email == null || email.isEmpty()) {
+            throw new IllegalArgumentException("Email is required");
+        }
+        
+        File savedFile = uploadFileUseCase.execute(file, email);
+        return ResponseEntity.ok(toResponse(savedFile));
     }
     
     @GetMapping("/list")
@@ -49,10 +60,9 @@ public class FileController {
     
     @PostMapping("/update-status")
     public ResponseEntity<FileResponse> updateStatus(
-            @RequestParam("file") MultipartFile file,
             @RequestParam("email") String email,
             @RequestParam("status") String statusValue,
-            @RequestParam(value = "userId", required = false) String userId) throws IOException {
+            @RequestParam("fileName") String fileName) {
         
         if (email == null || email.isEmpty()) {
             throw new IllegalArgumentException("Email is required");
@@ -62,14 +72,14 @@ public class FileController {
             throw new IllegalArgumentException("Status is required");
         }
         
+        if (fileName == null || fileName.isEmpty()) {
+            throw new IllegalArgumentException("FileName is required");
+        }
+        
         FileStatus status = FileStatus.valueOf(statusValue.toUpperCase());
         
-        byte[] fileData = file.getBytes();
-        String contentType = file.getContentType();
-        String originalFileName = file.getOriginalFilename();
-        
-        File savedFile = updateStatusUseCase.execute(email, originalFileName, contentType, fileData, status, userId);
-        return ResponseEntity.ok(toResponse(savedFile));
+        File updatedFile = updateStatusUseCase.execute(email, fileName, status);
+        return ResponseEntity.ok(toResponse(updatedFile));
     }
     
     private FileResponse toResponse(File file) {
