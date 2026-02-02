@@ -60,16 +60,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File updateFileStatus(String email, String fileName, FileStatus status) {
-//        FileEntity file = repository.findByEmailAndOriginalFileName(email, fileName)
-//                .orElseThrow(() -> new IllegalArgumentException(
-//                        "File not found with email: " + email + " and fileName: " + fileName));
-//
-//        file.setStatus(status);
-//        file.setUpdatedAt(LocalDateTime.now());
-//
-//        return FileConverter.toDomain(repository.save(file));
+    public File updateFileStatus(Long fileId, FileStatus status) {
+        FileEntity file = repository.findById(fileId).orElseThrow();
 
-        return File.builder().build();
+        file.setStatus(status);
+        file.setUpdatedAt(LocalDateTime.now());
+
+        return FileConverter.toDomain(repository.save(file));
     }
 }

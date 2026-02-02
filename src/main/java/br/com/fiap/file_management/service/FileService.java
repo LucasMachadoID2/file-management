@@ -11,5 +11,5 @@ public interface FileService {
 
     File uploadFile(MultipartFile multipartFile);
 
-    File updateFileStatus(String email, String fileName, FileStatus status);
+    File updateFileStatus(Long fileId, FileStatus status);
 }

@@ -38,27 +38,13 @@ public class FileController {
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping("/update-status")
-    public ResponseEntity<FileResponse> updateStatus(
-            @RequestParam("email") String email,
-            @RequestParam("status") String statusValue,
-            @RequestParam("fileName") String fileName) {
+    @PatchMapping("/update-status")
+    public ResponseEntity<FileResponse> updateStatus(@RequestParam("id") Long id,
+                                                     @RequestParam("status") String status) {
 
-        if (email == null || email.isEmpty()) {
-            throw new IllegalArgumentException("Email is required");
-        }
+        FileStatus statusEnum = FileStatus.valueOf(status.toUpperCase());
 
-        if (statusValue == null || statusValue.isEmpty()) {
-            throw new IllegalArgumentException("Status is required");
-        }
-
-        if (fileName == null || fileName.isEmpty()) {
-            throw new IllegalArgumentException("FileName is required");
-        }
-
-        FileStatus status = FileStatus.valueOf(statusValue.toUpperCase());
-
-        File updatedFile = fileService.updateFileStatus(email, fileName, status);
+        File updatedFile = fileService.updateFileStatus(id, statusEnum);
         return ResponseEntity.ok(toResponse(updatedFile));
     }
 }
