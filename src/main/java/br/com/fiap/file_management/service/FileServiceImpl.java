@@ -8,6 +8,8 @@ import br.com.fiap.file_management.domain.User;
 import br.com.fiap.file_management.entity.FileEntity;
 import br.com.fiap.file_management.entity.UserEntity;
 import br.com.fiap.file_management.repository.FileRepository;
+import br.com.fiap.file_management.usecase.FilesFilterUseCase;
+import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -16,7 +18,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,27 +25,11 @@ public class FileServiceImpl implements FileService {
 
     private final FileRepository repository;
     private final UserService userService;
+    private final EntityManager entityManager;
 
     @Override
     public List<File> listFiles(String email, String status) {
-        if (email != null && !email.isEmpty()) {
-            if (status != null && !status.isEmpty()) {
-                FileStatus fileStatus = FileStatus.valueOf(status.toUpperCase());
-                return repository.findByEmail(email).stream()
-                        .filter(file -> file.getStatus() == fileStatus)
-                        .collect(Collectors.toList());
-            }
-            return repository.findByEmail(email);
-        }
-
-        if (status != null && !status.isEmpty()) {
-            FileStatus fileStatus = FileStatus.valueOf(status.toUpperCase());
-            return repository.findByStatus(fileStatus);
-        }
-
-        return repository.findAll();
-
-        return repository.findAll().stream().map(FileConverter::toDomain).collect(Collectors.toList());
+        return FilesFilterUseCase.findFiltered(email, status, entityManager);
     }
 
     @Override

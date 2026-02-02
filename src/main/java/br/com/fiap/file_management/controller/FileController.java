@@ -29,9 +29,8 @@ public class FileController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<FileResponse>> listFiles(
-            @RequestParam(required = false) String email,
-            @RequestParam(required = false) String status) {
+    public ResponseEntity<List<FileResponse>> listFiles(@RequestParam(required = false) String email,
+                                                        @RequestParam(required = false) String status) {
         List<File> files = fileService.listFiles(email, status);
         List<FileResponse> response = files.stream()
                 .map(FileResponseConverter::toResponse)
