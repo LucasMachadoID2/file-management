@@ -1,4 +1,4 @@
-package br.com.fiap.file_management.domain.enums;
+package br.com.fiap.file_management.domain;
 
 public enum FileStatus {
     PENDING,

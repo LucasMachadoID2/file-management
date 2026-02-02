@@ -1,4 +1,4 @@
-package br.com.fiap.file_management.presentation.exception;
+package br.com.fiap.file_management.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
