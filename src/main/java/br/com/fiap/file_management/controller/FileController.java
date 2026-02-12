@@ -6,17 +6,19 @@ import br.com.fiap.file_management.domain.File;
 import br.com.fiap.file_management.domain.FileStatus;
 import br.com.fiap.file_management.service.FileService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static br.com.fiap.file_management.converter.FileResponseConverter.toResponse;
+import static java.util.stream.Collectors.toList;
 
 @RestController
-@RequestMapping("/api/files")
+@RequestMapping("/v1/files")
 @RequiredArgsConstructor
 public class FileController {
 
@@ -34,7 +36,7 @@ public class FileController {
         List<File> files = fileService.listFiles(email, status);
         List<FileResponse> response = files.stream()
                 .map(FileResponseConverter::toResponse)
-                .collect(Collectors.toList());
+                .collect(toList());
         return ResponseEntity.ok(response);
     }
 
@@ -46,5 +48,16 @@ public class FileController {
 
         File updatedFile = fileService.updateFileStatus(id, statusEnum);
         return ResponseEntity.ok(toResponse(updatedFile));
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
+        byte[] file = fileService.downloadFile(id);
+
+        return ResponseEntity.ok()
+                .contentType(MediaType.APPLICATION_OCTET_STREAM)
+                .header(HttpHeaders.CONTENT_DISPOSITION,
+                        "attachment; filename=file_processed.zip")
+                .body(file);
     }
 }

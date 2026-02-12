@@ -12,4 +12,6 @@ public interface FileService {
     File uploadFile(MultipartFile multipartFile);
 
     File updateFileStatus(Long fileId, FileStatus status);
+
+    byte[] downloadFile(Long id);
 }
