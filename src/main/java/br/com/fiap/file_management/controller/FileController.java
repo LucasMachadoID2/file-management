@@ -40,8 +40,8 @@ public class FileController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/update-status")
-    public ResponseEntity<FileResponse> updateStatus(@RequestParam("id") Long id,
+    @PatchMapping("/update-status/{id}")
+    public ResponseEntity<FileResponse> updateStatus(@PathVariable("id") Long id,
                                                      @RequestParam("status") String status) {
 
         FileStatus statusEnum = FileStatus.valueOf(status.toUpperCase());
