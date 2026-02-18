@@ -5,6 +5,7 @@ CREATE TABLE files (
     status VARCHAR(50) NOT NULL,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
+    download_url TEXT,
 
     CONSTRAINT fk_files_user FOREIGN KEY (user_id) REFERENCES users(id)
 );

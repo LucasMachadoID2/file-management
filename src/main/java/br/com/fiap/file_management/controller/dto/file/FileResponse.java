@@ -14,4 +14,5 @@ public class FileResponse {
     private FileStatus status;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String downloadUrl;
 }

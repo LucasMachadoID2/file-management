@@ -11,7 +11,7 @@ public interface FileService {
 
     File uploadFile(MultipartFile multipartFile);
 
-    File updateFileStatus(Long fileId, FileStatus status);
+    File updateFileStatus(Long fileId, FileStatus status, String url);
 
     byte[] downloadFile(Long id);
 }

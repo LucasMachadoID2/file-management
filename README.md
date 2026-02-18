@@ -83,3 +83,8 @@ Para acessar endpoints protegidos, inclua o token no header Authorization:
 - Após a expiração, é necessário fazer login novamente
 - Emails devem ser únicos no sistema
 - Senhas são validadas e criptografadas automaticamente
+
+
+
+## 💾 Diagrama de Entidade - Relacionamento 
+![Diagrama de Entidade-Relacionamento](./docs/ERD.png)

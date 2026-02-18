@@ -13,6 +13,7 @@ public class FileEntityConverter {
                 .status(file.getStatus())
                 .createdAt(file.getCreatedAt())
                 .updatedAt(file.getUpdatedAt())
+                .downloadUrl(file.getDownloadUrl())
                 .build();
     }
 }

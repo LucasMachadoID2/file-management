@@ -42,11 +42,12 @@ public class FileController {
 
     @PatchMapping("/update-status/{id}")
     public ResponseEntity<FileResponse> updateStatus(@PathVariable("id") Long id,
-                                                     @RequestParam("status") String status) {
+                                                     @RequestParam("status") String status,
+                                                     @RequestParam(value = "url", required = false) String url) {
 
         FileStatus statusEnum = FileStatus.valueOf(status.toUpperCase());
 
-        File updatedFile = fileService.updateFileStatus(id, statusEnum);
+        File updatedFile = fileService.updateFileStatus(id, statusEnum, url);
         return ResponseEntity.ok(toResponse(updatedFile));
     }
 

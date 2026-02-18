@@ -15,4 +15,5 @@ public class File {
     private byte[] fileData;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String downloadUrl;
 }

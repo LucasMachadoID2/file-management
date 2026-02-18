@@ -89,11 +89,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File updateFileStatus(Long fileId, FileStatus status) {
+    public File updateFileStatus(Long fileId, FileStatus status, String Url) {
         FileEntity file = repository.findById(fileId).orElseThrow();
 
         file.setStatus(status);
         file.setUpdatedAt(LocalDateTime.now());
+        file.setDownloadUrl(Url);
 
         return FileConverter.toDomain(repository.save(file));
     }

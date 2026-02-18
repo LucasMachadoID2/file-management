@@ -14,6 +14,7 @@ public class FileResponseConverter {
                 .status(file.getStatus())
                 .createdAt(file.getCreatedAt())
                 .updatedAt(file.getUpdatedAt())
+                .downloadUrl(file.getDownloadUrl())
                 .build();
     }
 }
