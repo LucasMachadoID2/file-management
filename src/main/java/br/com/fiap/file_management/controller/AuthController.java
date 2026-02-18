@@ -5,6 +5,8 @@ import br.com.fiap.file_management.controller.dto.user.LoginRequest;
 import br.com.fiap.file_management.controller.dto.user.RegisterRequest;
 import br.com.fiap.file_management.security.JwtService;
 import br.com.fiap.file_management.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
+@Tag(name = "Autenticação", description = "Endpoints para autenticação de usuários")
 public class AuthController {
 
     private final UserService userService;
@@ -26,6 +29,7 @@ public class AuthController {
     private final JwtService jwtService;
 
     @PostMapping("/register")
+    @Operation(summary = "Registrar novo usuário", description = "Cria uma nova conta de usuário")
     public ResponseEntity<?> register(@RequestBody RegisterRequest request) {
         try {
             userService.register(request.getEmail(), request.getPassword());
@@ -36,6 +40,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
+    @Operation(summary = "Autenticar usuário", description = "Realiza login e retorna token JWT")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())

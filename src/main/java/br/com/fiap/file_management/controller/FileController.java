@@ -5,6 +5,9 @@ import br.com.fiap.file_management.converter.FileResponseConverter;
 import br.com.fiap.file_management.domain.File;
 import br.com.fiap.file_management.domain.FileStatus;
 import br.com.fiap.file_management.service.FileService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -20,17 +23,21 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/v1/files")
 @RequiredArgsConstructor
+@Tag(name = "Gerenciamento de Arquivos", description = "Endpoints para upload, download e gerenciamento de arquivos")
+@SecurityRequirement(name = "Bearer Authentication")
 public class FileController {
 
     private final FileService fileService;
 
     @PostMapping("/upload")
+    @Operation(summary = "Upload de arquivo", description = "Faz o upload de um arquivo para processamento")
     public ResponseEntity<FileResponse> uploadFile(@RequestParam("file") MultipartFile file) {
         File savedFile = fileService.uploadFile(file);
         return ResponseEntity.ok(toResponse(savedFile));
     }
 
     @GetMapping("/list")
+    @Operation(summary = "Listar arquivos", description = "Lista todos os arquivos com filtros opcionais")
     public ResponseEntity<List<FileResponse>> listFiles(@RequestParam(required = false) String email,
                                                         @RequestParam(required = false) String status) {
         List<File> files = fileService.listFiles(email, status);
@@ -41,6 +48,7 @@ public class FileController {
     }
 
     @PatchMapping("/update-status/{id}")
+    @Operation(summary = "Atualizar status do arquivo", description = "Atualiza o status de processamento de um arquivo")
     public ResponseEntity<FileResponse> updateStatus(@PathVariable("id") Long id,
                                                      @RequestParam("status") String status) {
 
@@ -51,6 +59,7 @@ public class FileController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "Download de arquivo", description = "Faz o download de um arquivo processado")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
         byte[] file = fileService.downloadFile(id);
 
