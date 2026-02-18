@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ClientWithAcessEnum {
 
-    FILE_PROCESS_INTEGRATION("/v1/files/update-status", "fc5aeb01-3309-4279-92af-b7f685655927");
+    FILE_PROCESS_INTEGRATION("/v1/files/post-process-file", "fc5aeb01-3309-4279-92af-b7f685655927");
 
     private final String path;
     private final String token;

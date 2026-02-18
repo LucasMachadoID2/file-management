@@ -13,6 +13,7 @@ public class File {
     private String name;
     private FileStatus status;
     private byte[] fileData;
+    private String link;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

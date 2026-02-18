@@ -1,9 +1,9 @@
 package br.com.fiap.file_management.controller;
 
 import br.com.fiap.file_management.controller.dto.file.FileResponse;
+import br.com.fiap.file_management.controller.dto.file.FileUpdateRequest;
 import br.com.fiap.file_management.converter.FileResponseConverter;
 import br.com.fiap.file_management.domain.File;
-import br.com.fiap.file_management.domain.FileStatus;
 import br.com.fiap.file_management.service.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -29,14 +29,14 @@ public class FileController {
 
     private final FileService fileService;
 
-    @PostMapping("/upload")
+    @PostMapping
     @Operation(summary = "Upload de arquivo", description = "Faz o upload de um arquivo para processamento")
     public ResponseEntity<FileResponse> uploadFile(@RequestParam("file") MultipartFile file) {
         File savedFile = fileService.uploadFile(file);
         return ResponseEntity.ok(toResponse(savedFile));
     }
 
-    @GetMapping("/list")
+    @GetMapping
     @Operation(summary = "Listar arquivos", description = "Lista todos os arquivos com filtros opcionais")
     public ResponseEntity<List<FileResponse>> listFiles(@RequestParam(required = false) String email,
                                                         @RequestParam(required = false) String status) {
@@ -47,14 +47,13 @@ public class FileController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/update-status/{id}")
-    @Operation(summary = "Atualizar status do arquivo", description = "Atualiza o status de processamento de um arquivo")
+    @PatchMapping("/post-process-file/{id}")
+    @Operation(summary = "Atualiza parcialmente um arquivo",
+            description = "Atualiza as informações de um arquivo")
     public ResponseEntity<FileResponse> updateStatus(@PathVariable("id") Long id,
-                                                     @RequestParam("status") String status) {
+                                                     @RequestBody FileUpdateRequest fileUpdateRequest) {
 
-        FileStatus statusEnum = FileStatus.valueOf(status.toUpperCase());
-
-        File updatedFile = fileService.updateFileStatus(id, statusEnum);
+        File updatedFile = fileService.updateFile(id, fileUpdateRequest);
         return ResponseEntity.ok(toResponse(updatedFile));
     }
 
