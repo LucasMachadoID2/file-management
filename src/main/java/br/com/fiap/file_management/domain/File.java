@@ -16,4 +16,5 @@ public class File {
     private String link;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private String downloadUrl;
 }

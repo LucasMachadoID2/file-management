@@ -16,6 +16,7 @@ public class FileConverter {
                 .link(fileEntity.getLink())
                 .createdAt(fileEntity.getCreatedAt())
                 .updatedAt(fileEntity.getUpdatedAt())
+                .downloadUrl(fileEntity.getDownloadUrl())
                 .build();
     }
 }

@@ -1,13 +1,10 @@
 package br.com.fiap.file_management.controller;
 
 import br.com.fiap.file_management.controller.dto.file.FileResponse;
-import br.com.fiap.file_management.controller.dto.file.FileUpdateRequest;
 import br.com.fiap.file_management.converter.FileResponseConverter;
 import br.com.fiap.file_management.domain.File;
+import br.com.fiap.file_management.domain.FileStatus;
 import br.com.fiap.file_management.service.FileService;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -23,21 +20,17 @@ import static java.util.stream.Collectors.toList;
 @RestController
 @RequestMapping("/v1/files")
 @RequiredArgsConstructor
-@Tag(name = "Gerenciamento de Arquivos", description = "Endpoints para upload, download e gerenciamento de arquivos")
-@SecurityRequirement(name = "Bearer Authentication")
 public class FileController {
 
     private final FileService fileService;
 
-    @PostMapping
-    @Operation(summary = "Upload de arquivo", description = "Faz o upload de um arquivo para processamento")
+    @PostMapping("/upload")
     public ResponseEntity<FileResponse> uploadFile(@RequestParam("file") MultipartFile file) {
         File savedFile = fileService.uploadFile(file);
         return ResponseEntity.ok(toResponse(savedFile));
     }
 
-    @GetMapping
-    @Operation(summary = "Listar arquivos", description = "Lista todos os arquivos com filtros opcionais")
+    @GetMapping("/list")
     public ResponseEntity<List<FileResponse>> listFiles(@RequestParam(required = false) String email,
                                                         @RequestParam(required = false) String status) {
         List<File> files = fileService.listFiles(email, status);
@@ -47,18 +40,18 @@ public class FileController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping("/post-process-file/{id}")
-    @Operation(summary = "Atualiza parcialmente um arquivo",
-            description = "Atualiza as informações de um arquivo")
+    @PatchMapping("/update-status/{id}")
     public ResponseEntity<FileResponse> updateStatus(@PathVariable("id") Long id,
-                                                     @RequestBody FileUpdateRequest fileUpdateRequest) {
+                                                     @RequestParam("status") String status,
+                                                     @RequestBody(required = false) String url) {
 
-        File updatedFile = fileService.updateFile(id, fileUpdateRequest);
+        FileStatus statusEnum = FileStatus.valueOf(status.toUpperCase());
+
+        File updatedFile = fileService.updateFileStatus(id, statusEnum, url);
         return ResponseEntity.ok(toResponse(updatedFile));
     }
 
     @GetMapping("/{id}")
-    @Operation(summary = "Download de arquivo", description = "Faz o download de um arquivo processado")
     public ResponseEntity<byte[]> downloadFile(@PathVariable Long id) {
         byte[] file = fileService.downloadFile(id);
 

@@ -1,6 +1,5 @@
 package br.com.fiap.file_management.service;
 
-import br.com.fiap.file_management.controller.dto.file.FileUpdateRequest;
 import br.com.fiap.file_management.converter.FileConverter;
 import br.com.fiap.file_management.converter.FileEntityConverter;
 import br.com.fiap.file_management.domain.File;
@@ -90,12 +89,12 @@ public class FileServiceImpl implements FileService {
     }
 
     @Override
-    public File updateFile(Long fileId, FileUpdateRequest fileUpdateRequest) {
+    public File updateFileStatus(Long fileId, FileStatus status, String Url) {
         FileEntity file = repository.findById(fileId).orElseThrow();
 
-        file.setStatus(fileUpdateRequest.getStatus());
-        file.setLink(fileUpdateRequest.getLink());
+        file.setStatus(status);
         file.setUpdatedAt(LocalDateTime.now());
+        file.setDownloadUrl(Url);
 
         return FileConverter.toDomain(repository.save(file));
     }

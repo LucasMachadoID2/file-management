@@ -35,4 +35,7 @@ public class FileEntity {
 
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
+
+    @Column(name = "download_url")
+    private String downloadUrl;
 }
