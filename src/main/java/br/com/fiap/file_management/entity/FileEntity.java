@@ -28,6 +28,8 @@ public class FileEntity {
     @Enumerated(EnumType.STRING)
     private FileStatus status;
 
+    private String link;
+
     @Column(name = "created_at")
     private LocalDateTime createdAt;
 

@@ -13,6 +13,7 @@ public class FileConverter {
                 .user(UserConverter.toDomain(fileEntity.getUser()))
                 .name(fileEntity.getName())
                 .status(fileEntity.getStatus())
+                .link(fileEntity.getLink())
                 .createdAt(fileEntity.getCreatedAt())
                 .updatedAt(fileEntity.getUpdatedAt())
                 .downloadUrl(fileEntity.getDownloadUrl())
