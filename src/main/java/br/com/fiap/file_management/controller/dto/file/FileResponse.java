@@ -12,7 +12,6 @@ public class FileResponse {
     private Long id;
     private String name;
     private FileStatus status;
-    private String link;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
     private String downloadUrl;

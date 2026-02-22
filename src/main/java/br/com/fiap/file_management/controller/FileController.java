@@ -27,7 +27,18 @@ public class FileController {
     @PostMapping("/upload")
     public ResponseEntity<FileResponse> uploadFile(@RequestParam("file") MultipartFile file) {
         File savedFile = fileService.uploadFile(file);
-        return ResponseEntity.ok(toResponse(savedFile));
+
+        FileResponse response = toResponse(savedFile);
+
+        return ResponseEntity.ok(
+                FileResponse.builder()
+                        .id(response.getId())
+                        .name(response.getName())
+                        .status(response.getStatus())
+                        .createdAt(response.getCreatedAt())
+                        .updatedAt(response.getUpdatedAt())
+                        .build()
+        );
     }
 
     @GetMapping("/list")
