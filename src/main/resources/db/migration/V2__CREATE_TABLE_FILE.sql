@@ -3,7 +3,6 @@ CREATE TABLE files (
     user_id BIGINT NOT NULL,
     name VARCHAR(255) NOT NULL,
     status VARCHAR(50) NOT NULL,
-    link TEXT,
     created_at TIMESTAMP NOT NULL,
     updated_at TIMESTAMP NOT NULL,
     download_url TEXT,

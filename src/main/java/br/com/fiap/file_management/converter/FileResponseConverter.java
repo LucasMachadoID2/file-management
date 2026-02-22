@@ -12,7 +12,6 @@ public class FileResponseConverter {
                 .id(file.getId())
                 .name(file.getName())
                 .status(file.getStatus())
-                .link(file.getLink())
                 .createdAt(file.getCreatedAt())
                 .updatedAt(file.getUpdatedAt())
                 .downloadUrl(file.getDownloadUrl())
