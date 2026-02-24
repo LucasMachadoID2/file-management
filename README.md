@@ -57,6 +57,8 @@ O sistema é dividido em dois microsserviços e gerenciado pela infraestrutura:
 
 * Banco de dados relacional PostegreSQL
 
+<img src="./docs/arquitetura.png" alt="Desenho arquitetura" width="700"/>
+
 ## O projeto segue boas práticas de arquitetura de software, com foco em:
 
 * Escalabilidade: Processamento assíncrono e microsserviços desacoplados.
@@ -66,6 +68,9 @@ O sistema é dividido em dois microsserviços e gerenciado pela infraestrutura:
 * Qualidade de Software: Testes unitários, limpeza de arquivos temporários e tratamento de erros.
 
 * Resiliência: Mensageria assíncrona garante que requisições não sejam perdidas durante picos de acesso.
+
+
+
 
 
 ## 🔄 Fluxo de Eventos
