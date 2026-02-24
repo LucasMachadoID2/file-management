@@ -5,7 +5,7 @@ Este projeto é uma solução de alta performance desenvolvida para o processame
 ## 🧩 Design Orientado a Domínio (DDD) e Fluxo de Eventos
 Para a concepção do sistema, aplicamos conceitos de DDD e Event Storming para mapear o comportamento da aplicação e garantir que os requisitos de negócio fossem atendidos de forma desacoplada.
 
-![DDD](DDD_Hacka.png)
+![DDD](./docs/DDD_Hacka.png)
 
 ### **Explicação do Fluxo de Domínio:**
 
